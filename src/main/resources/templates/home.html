@@ -1,0 +1,118 @@
+<html>
+<head>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Loan Calculator</title>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            header {
+                text-align: center;
+                padding-top: 15px;
+                font-weight: bold;
+                font-size: 26px;
+            }
+
+            section {
+                display: flex;
+                max-width: 750px;
+                min-width: 750px;
+                padding: 15px;
+                margin: auto;
+            }
+
+            th {
+                text-align: left;
+                padding: 5px;
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 18px;
+            }
+
+            button {
+                font-size: 15px;
+                padding: 3px 10px;
+            }
+
+            .content {
+                border: 1px solid black;
+                max-width: 800px;
+                min-width: 800px;
+                margin: auto;
+                background-color: #D5E6F1;
+            }
+
+            .calculator {
+                width: 50%;
+                border: 1px solid black;
+                padding-top: 10px;
+                padding-left: 5px;
+                padding-right: 5px;
+                align-items: center;
+                background-color: whitesmoke;
+            }
+
+            .result {
+                width: 50%;
+                text-align: center;
+                font-size: 28px;
+                border: 1px solid black;
+                background-color: whitesmoke;
+                padding-bottom: 15px;
+            }
+
+            .button-container {
+                text-align: center;
+                padding-top: 20px;
+            }
+
+        </style>
+    </head>
+<body>
+<div class="content">
+    <header>Loan Calculator</header>
+    <section>
+        <div class="calculator">
+            <form action="#" th:action="@{/home}" th:object="${loanObject}" method="POST">
+                <table>
+                    <tr>
+                        <th>Loan amount:</th>
+                        <th><input inputmode="decimal" th:field="*{loanAmount}" th:value="0.0"
+                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/^\..*$/, '0' + this.value).replace(/(\..*?)\..*/g, '$1').replace(/(\.\d{2}).+/g, '$1');"/>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>Interest rate per year:</th>
+                        <th><input inputmode="decimal" th:field="*{interestRate}" th:value="0.0"
+                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/^\..*$/, '0' + this.value).replace(/(\..*?)\..*/g, '$1').replace(/(\.\d{2}).+/g, '$1');"/>
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>Loan term in years:</th>
+                        <th><input inputmode="numeric" th:field="*{loanTime}" th:value="0"
+                                   oninput="this.value = this.value.replace(/\D+/g, '')"></th>
+                    </tr>
+                </table>
+                <div class="button-container">
+                    <button type="submit" th:name="calculate">Calculate</button>
+                </div>
+            </form>
+        </div>
+        <div class="result">
+            <h1>Monthly Payment</h1>
+            <label id="monthlyPayment-output"
+                   th:text="${#strings.defaultString(results?.get('monthlyPayment'),'N/A')}"></label>
+            <h1>Total Payment</h1>
+            <label id="totalPayment-output"
+                   th:text="${#strings.defaultString(results?.get('totalPayment'),'N/A')}"></label>
+        </div>
+    </section>
+</div>
+</body>
+</html>
